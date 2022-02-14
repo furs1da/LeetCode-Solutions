@@ -1,4 +1,4 @@
 # Leetcode-Solutions
 Leetcode Solutions - Dmytrii Furs (https://leetcode.com/furs1da/)
 
-- LinkedList
+- LinkedList (30 / 55)
