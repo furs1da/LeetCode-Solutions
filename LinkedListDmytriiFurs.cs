@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Leetcode_Solutions
 {
@@ -964,5 +966,26 @@ namespace Leetcode_Solutions
                 result.Add(maxDist);
                 return result.ToArray();
             }
+
+        // 817. Linked List Components (Medium)
+        public int NumComponents(ListNode head, int[] nums)
+        {
+            int result = 0;
+            HashSet<int> compareSet = new HashSet<int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                compareSet.Add(nums[i]);
+            }
+            ListNode dummyHead = new ListNode(-1, head);
+            while (dummyHead.next != null)
+            {
+                if (!compareSet.Contains(dummyHead.val) && compareSet.Contains(dummyHead.next.val))
+                {
+                    result++;
+                }
+                dummyHead = dummyHead.next;
+            }
+            return result;
         }
+    }
 }
