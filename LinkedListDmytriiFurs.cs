@@ -987,5 +987,39 @@ namespace Leetcode_Solutions
             }
             return result;
         }
+
+        // 92. Reverse Linked List II (Medium)
+        public ListNode ReverseBetween(ListNode head, int left, int right)
+        {
+            ListNode prev = null, next = null, temp = null;
+            ListNode dummyNode = new ListNode(-1, head);
+            ListNode res = dummyNode;
+            int index = 0, amount = right - left + 1;
+            while (dummyNode != null)
+            {
+                if (index == left - 1)
+                {
+                    index = 0;
+                    ListNode currentNode = dummyNode.next;
+                    temp = currentNode;
+                    while (index < amount)
+                    {
+                        next = currentNode.next;
+                        currentNode.next = prev;
+                        prev = currentNode;
+                        currentNode = next;
+                        index++;
+                    }
+                    temp.next = next;
+                    dummyNode.next = prev;
+                    break;
+                }
+                dummyNode = dummyNode.next;
+                index++;
+            }
+
+
+            return res.next;
+        }
     }
 }
