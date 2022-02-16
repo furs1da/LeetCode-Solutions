@@ -1017,9 +1017,36 @@ namespace Leetcode_Solutions
                 dummyNode = dummyNode.next;
                 index++;
             }
-
-
             return res.next;
+        }
+
+        // 61. Rotate List (Medium)
+        public ListNode RotateRight(ListNode head, int k)
+        {
+            ListNode slow = head, fast = head;
+            if (head == null)
+                return null;
+            int count = 0;
+            ListNode temp = head;
+            while (temp != null)
+            {
+                count++;
+                temp = temp.next;
+            }    
+            k = k % count;
+            for (int i = 0; i < k; i++)
+            {
+                fast = fast.next;   
+            }
+            while (fast.next != null)
+            {
+                fast = fast.next;
+                slow = slow.next;
+            }
+            fast.next = head;
+            ListNode result = slow.next;
+            slow.next = null;
+            return result;
         }
     }
 }
