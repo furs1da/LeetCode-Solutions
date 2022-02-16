@@ -1048,5 +1048,38 @@ namespace Leetcode_Solutions
             slow.next = null;
             return result;
         }
+
+        // 725. Split Linked List in Parts (Medium)
+        public ListNode[] SplitListToParts(ListNode head, int k)
+        {
+            ListNode[] result = new ListNode[k];
+            if (k == 1)
+            {
+                result[0] = head;
+                return result;
+            }   
+            ListNode temp = head;
+            int count = 0;
+            while (temp != null)
+            {
+                temp = temp.next;
+                count++;
+            }
+            temp = null;
+            for (int i = 0; i < k; i++)
+            {
+                result[i] = head;
+                int j = count / k + (i < count % k ? 1 : 0);
+                while (head != null && j > 0)
+                {
+                    temp = head;
+                    head = head.next;
+                    j--;
+                }
+                if (temp != null)
+                    temp.next = null;
+            }
+            return result;
+        }
     }
 }
