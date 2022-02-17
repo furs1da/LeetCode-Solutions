@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -913,8 +914,8 @@ namespace Leetcode_Solutions
                     dummyNode.next = new ListNode(1, null);
                 return head.next;
             }
-            // 2058. Find the Minimum and Maximum Number of Nodes Between Critical Points
-            public int[] NodesBetweenCriticalPoints(ListNode head)
+        // 2058. Find the Minimum and Maximum Number of Nodes Between Critical Points (Medium)
+        public int[] NodesBetweenCriticalPoints(ListNode head)
             {
                 int minDist = int.MaxValue, maxDist = int.MinValue, currentDist = 1, prevValue = 0, distCounter = 0, lastDist = int.MinValue, firstDist = int.MinValue;
                 List<int> result = new List<int>();
@@ -1080,6 +1081,164 @@ namespace Leetcode_Solutions
                     temp.next = null;
             }
             return result;
+        }
+
+
+        // 1206. Design Skiplist (Hard)
+        public class Skiplist
+        {
+            private SkipNode head;
+            private SkipNode tail;
+
+            public Skiplist()
+            {
+                this.head = new SkipNode(int.MinValue);
+                this.tail = new SkipNode(int.MaxValue);
+                head.right = tail;
+                tail.left = head;
+            }
+
+            public bool Search(int target)
+            {
+                SkipNode curr = head;
+                while (curr != null)
+                {
+                    while (curr.right != null && curr.right.val <= target)
+                        curr = curr.right;
+                    if (curr.val == target)
+                        return true;
+                    curr = curr.down;
+                }
+                return false;
+            }
+
+            public void Add(int num)
+            {
+                List<SkipNode> pointersToUpdate = new List<SkipNode>();
+                SkipNode curr = head;
+                while (curr != null)
+                {
+                    while (curr.right != null && curr.right.val < num)
+                    {
+                        curr = curr.right;
+                    }
+                    pointersToUpdate.Add(curr);
+                    curr = curr.down;
+                }
+
+                int level = 0;
+                SkipNode newNode = null;
+
+                while (level == 0 || FlipCoin())
+                {
+                    if (newNode == null)
+                    {
+                        newNode = new SkipNode(num);
+                    }
+                    else
+                    {
+                        newNode = new SkipNode(newNode);
+                    }
+
+                    SkipNode nodeToUpdate;
+
+                    if (pointersToUpdate.Count() <= level)
+                    {
+                        CreateNewLayer();
+                        nodeToUpdate = this.head;
+                    }
+                    else
+                    {
+                        nodeToUpdate = pointersToUpdate.ElementAt(pointersToUpdate.Count() - level - 1);
+                    }
+
+                    newNode.right = nodeToUpdate.right;
+                    newNode.left = nodeToUpdate;
+                    newNode.right.left = newNode;
+                    nodeToUpdate.right = newNode;
+
+                    level++;
+                }
+            }
+
+            private bool FlipCoin()
+            {
+                Random rnd = new Random();
+                return rnd.NextDouble() >= 0.5 ? true : false;
+            }
+
+            private void CreateNewLayer() 
+            {
+                SkipNode newHead = new SkipNode(int.MinValue);
+                SkipNode newTail = new SkipNode(int.MaxValue);
+
+                newHead.right = newTail;
+                newTail.left = newHead;
+
+                head.up = newHead;
+                newHead.down = head;
+                head = newHead;
+
+                tail.up = newTail;
+                newTail.down = tail;
+                tail = newTail;
+            }
+
+            public bool Erase(int num)
+            {
+                List<SkipNode> pointersToUpdate = new List<SkipNode>();
+                SkipNode curr = head;
+                while (curr != null)
+                {
+                    while (curr.right != null && curr.right.val < num)
+                    {
+                        curr = curr.right;
+                    }
+                    if (curr.right.val == num)
+                        pointersToUpdate.Add(curr);
+                    curr = curr.down;
+                }
+
+                for (int i = 0; i < pointersToUpdate.Count(); i++)
+                {
+                    SkipNode nodeToUpdate = pointersToUpdate.ElementAt(i);
+                    SkipNode nodeToDelete = nodeToUpdate.right;
+
+                    nodeToUpdate.right = nodeToDelete.right;
+
+                    nodeToDelete.up = null;
+                    nodeToDelete.down = null;      
+                }
+                if (pointersToUpdate.Count() != 0)
+                    return true;
+                return false;
+            }
+        }
+
+        public class SkipNode {
+            public int val;
+            public SkipNode left;
+            public SkipNode right;
+            public SkipNode up;
+            public SkipNode down;
+
+            public SkipNode(int val)
+            {
+                this.val = val;
+                this.left = null;
+                this.right = null;
+                this.up = null;
+                this.down = null;
+            }
+
+            public SkipNode(SkipNode lowerLevelNode)
+            {
+                this.val = lowerLevelNode.val;
+                this.left = null;
+                this.right = null;
+                this.up = null;
+                this.down = lowerLevelNode;
+            }
         }
     }
 }
