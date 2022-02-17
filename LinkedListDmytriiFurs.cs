@@ -9,6 +9,26 @@ namespace Leetcode_Solutions
         {
             static void Main(string[] args)
             {
+                LinkedListDmytriiFurs instance = new LinkedListDmytriiFurs();
+                
+                ListNode arr1_1 = new ListNode(5, null);
+                ListNode arr1_2 = new ListNode(4, arr1_1);
+                ListNode arr1_3 = new ListNode(1, arr1_2);
+
+                ListNode arr2_1 = new ListNode(4, null);
+                ListNode arr2_2 = new ListNode(3, arr2_1);
+                ListNode arr2_3 = new ListNode(1, arr2_2);
+
+                ListNode arr3_1 = new ListNode(6, null);
+                ListNode arr3_2 = new ListNode(2, arr3_1);
+
+                ListNode[] array = new ListNode[3];
+                array[0] = arr1_3;
+                array[1] = arr2_3;
+                array[2] = arr3_2;
+
+                ListNode result = instance.MergeKLists(array);
+                instance.PrintAllNodes(result);
 
             }
             public class ListNode
@@ -1292,5 +1312,126 @@ namespace Leetcode_Solutions
             }
             return res;
         }
+
+        // 23. Merge k Sorted Lists (Hard)
+        public ListNode MergeKLists(ListNode[] lists)
+        {
+            if (lists == null)
+            {
+                return null;
+            }
+            if (lists.Length == 1)
+            {
+                return lists[0];
+            }
+            int iteration = lists.Length / 2;
+            int lastIteration = lists.Length % 2;
+            ListNode dummyHead = new ListNode(int.MinValue);
+            int j = 0;
+            ListNode headOne = null, headTwo = null, appendHead = dummyHead, tempNode = null;
+            for (int i = 0; i < iteration; i++)
+            {
+                appendHead = dummyHead;
+                headOne = lists[j];
+                headTwo = lists[j + 1];
+                while (headOne != null && headTwo != null)
+                {
+                    if (headOne.val <= headTwo.val)
+                    {
+                        if (appendHead.next != null && appendHead.next.val < headOne.val)
+                        {
+                            appendHead = appendHead.next;
+                        }
+                        else
+                        {
+                            tempNode = appendHead.next;
+                            ListNode insertNode = new ListNode(headOne.val);
+                            appendHead.next = insertNode;
+                            appendHead.next.next = tempNode;
+                            headOne = headOne.next;
+                        }
+                    }
+                    else
+                    {
+                        if (appendHead.next != null && appendHead.next.val < headTwo.val)
+                        {
+                            appendHead = appendHead.next;
+                        }
+                        else
+                        {
+                            tempNode = appendHead.next;
+                            ListNode insertNode = new ListNode(headTwo.val);
+                            appendHead.next = insertNode;
+                            appendHead.next.next = tempNode;
+                            headTwo = headTwo.next;
+                        }
+                    }
+                }
+
+                while (headOne != null)
+                {
+                    if (appendHead.next != null && appendHead.next.val < headOne.val)
+                    {
+                        appendHead = appendHead.next;
+                    }
+                    else
+                    {
+                        tempNode = appendHead.next;
+                        ListNode insertNode = new ListNode(headOne.val);
+                        appendHead.next = insertNode;
+                        appendHead.next.next = tempNode;
+                        headOne = headOne.next;
+                    }
+                }
+                while (headTwo != null)
+                {
+                    if (appendHead.next != null && appendHead.next.val < headTwo.val)
+                    {
+                        appendHead = appendHead.next;
+                    }
+                    else
+                    {
+                        tempNode = appendHead.next;
+                        ListNode insertNode = new ListNode(headTwo.val);
+                        appendHead.next = insertNode;
+                        appendHead.next.next = tempNode;
+                        headTwo = headTwo.next;
+                    }
+                }
+                j += 2;
+            }
+
+            if (lastIteration == 1)
+            {
+                appendHead = dummyHead;
+                headOne = lists[lists.Length - 1];
+                while (headOne != null)
+                {
+                    if (appendHead.next != null && appendHead.next.val < headOne.val)
+                    {
+                        appendHead = appendHead.next;
+                    }
+                    else
+                    {
+                        tempNode = appendHead.next;
+                        ListNode insertNode = new ListNode(headOne.val);
+                        appendHead.next = insertNode;
+                        appendHead.next.next = tempNode;
+                        headOne = headOne.next;
+                    }
+                }
+
+            }
+            return dummyHead.next;
+        }
+        public void PrintAllNodes(ListNode head)
+        {
+            while (head != null)
+            {
+                Console.WriteLine(head.val);
+                head = head.next;
+            }
+        }
+
     }
 }
