@@ -10,25 +10,16 @@ namespace Leetcode_Solutions
             static void Main(string[] args)
             {
                 LinkedListDmytriiFurs instance = new LinkedListDmytriiFurs();
-                
-                ListNode arr1_1 = new ListNode(5, null);
-                ListNode arr1_2 = new ListNode(4, arr1_1);
-                ListNode arr1_3 = new ListNode(1, arr1_2);
 
-                ListNode arr2_1 = new ListNode(4, null);
-                ListNode arr2_2 = new ListNode(3, arr2_1);
-                ListNode arr2_3 = new ListNode(1, arr2_2);
-
-                ListNode arr3_1 = new ListNode(6, null);
-                ListNode arr3_2 = new ListNode(2, arr3_1);
-
-                ListNode[] array = new ListNode[3];
-                array[0] = arr1_3;
-                array[1] = arr2_3;
-                array[2] = arr3_2;
-
-                ListNode result = instance.MergeKLists(array);
-                instance.PrintAllNodes(result);
+                    MyLinkedList myLinkedList = new MyLinkedList();
+                    myLinkedList.AddAtHead(1);
+                    myLinkedList.AddAtTail(3);
+                    myLinkedList.AddAtIndex(1, 2);    // linked list becomes 1->2->3
+            instance.PrintAllNodes(myLinkedList.GetNode(0));
+            myLinkedList.Get(1);              // return 2
+                    myLinkedList.DeleteAtIndex(1);    // now the linked list is 1->3
+                    myLinkedList.Get(1);
+                    instance.PrintAllNodes(myLinkedList.GetNode(0));
 
             }
             public class ListNode
@@ -1430,6 +1421,110 @@ namespace Leetcode_Solutions
             {
                 Console.WriteLine(head.val);
                 head = head.next;
+            }
+        }
+
+
+        // 707. Design Linked List (Medium)
+        public class MyLinkedList
+        {
+            ListNode head;
+            int count = 0;
+            public MyLinkedList()
+            {
+                head = new ListNode(-1, null);
+            }
+
+            public int Get(int index)
+            {
+                ListNode temp = head;
+                int ind = -1;
+                if (count <= index)
+                    return -1;
+                while (index > ind && temp.next != null)
+                {
+                    temp = temp.next;
+                    ind++;
+                }
+                return temp.val;
+            }
+
+            public ListNode GetNode(int index)
+            {
+                ListNode temp = head;
+                int ind = -1;
+                if (count < index)
+                    return null;
+                while (index > ind && temp.next != null)
+                {
+                    temp = temp.next;
+                    ind++;
+                }
+                return temp;
+            }
+
+            public void AddAtHead(int val)
+            {
+                if (head.next != null)
+                {
+                    ListNode temp = head.next;
+                    head.next = new ListNode(val, temp);
+                }
+                else
+                {
+                    head.next = new ListNode(val, null);
+                }
+                count++;
+            }
+
+            public void AddAtTail(int val)
+            {
+                ListNode temp = head;
+                while (temp.next != null)
+                {
+                    temp = temp.next;
+                }
+                temp.next = new ListNode(val, null);
+                count++;
+            }
+
+            public void AddAtIndex(int index, int val)
+            {
+                if (index > count)
+                    return;
+                if (index == count)
+                {
+                    AddAtTail(val);
+                    return;
+                }
+                ListNode temp = head;
+                int ind = 0;
+                while (temp.next != null && index > ind)
+                {
+                    ind++;
+                    temp = temp.next;
+                }
+                ListNode tempList = temp.next;
+                temp.next = new ListNode(val, tempList);
+                count++;
+            }
+
+            public void DeleteAtIndex(int index)
+            {
+                if (index >= count)
+                    return;
+                ListNode temp = head;
+                int ind = -1;
+                while (temp.next != null && index - 1 > ind)
+                {
+                    ind++;
+                    temp = temp.next;
+                }
+                if (temp.next.next != null)
+                    temp.next = temp.next.next;
+                else
+                    temp.next = null;
+                count--;
             }
         }
 
