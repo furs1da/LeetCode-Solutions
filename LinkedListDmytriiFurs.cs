@@ -1240,5 +1240,57 @@ namespace Leetcode_Solutions
                 this.down = lowerLevelNode;
             }
         }
+
+
+        // 138. Copy List with Random Pointer (Medium)
+        public class Node
+        {
+            public int val;
+            public Node next;
+            public Node random;
+
+            public Node(int _val)
+            {
+                val = _val;
+                next = null;
+                random = null;
+            }
+        }
+
+        public Node CopyRandomList(Node head)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+            Node start = head;
+            while (start != null)
+            {
+                Node newNode = new Node(start.val);
+                newNode.next = start.next;
+                start.next = newNode;
+                start = start.next.next;
+            }
+            Node res = head.next;
+            start = head;
+            while (start != null)
+            {
+                Node newNode = start.next;
+                if (start.random != null)
+                {
+                    start.next.random = start.random.next; 
+                }
+                start = start.next.next;
+            }
+            start = head;
+            while (start != null)
+            {
+                Node newNode = start.next;
+                start.next = newNode.next;
+                start = newNode.next;
+                newNode.next = start == null ? null : start.next;
+            }
+            return res;
+        }
     }
 }
