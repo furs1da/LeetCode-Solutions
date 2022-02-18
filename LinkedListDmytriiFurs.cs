@@ -11,17 +11,14 @@ namespace Leetcode_Solutions
             {
                 LinkedListDmytriiFurs instance = new LinkedListDmytriiFurs();
 
-                    MyLinkedList myLinkedList = new MyLinkedList();
-                    myLinkedList.AddAtHead(1);
-                    myLinkedList.AddAtTail(3);
-                    myLinkedList.AddAtIndex(1, 2);    // linked list becomes 1->2->3
-            instance.PrintAllNodes(myLinkedList.GetNode(0));
-            myLinkedList.Get(1);              // return 2
-                    myLinkedList.DeleteAtIndex(1);    // now the linked list is 1->3
-                    myLinkedList.Get(1);
-                    instance.PrintAllNodes(myLinkedList.GetNode(0));
+            ListNode ln1 = new ListNode(1, null);
+            ListNode ln2 = new ListNode(3, ln1);
+            ListNode ln3 = new ListNode(-3, ln2);
+            ListNode ln4 = new ListNode(2, ln3);
+            ListNode ln5 = new ListNode(1, ln4);
+            instance.RemoveZeroSumSublists(ln5);
 
-            }
+        }
             public class ListNode
             {
                 public int val;
@@ -1528,5 +1525,35 @@ namespace Leetcode_Solutions
             }
         }
 
+        // 1171. Remove Zero Sum Consecutive Nodes from Linked List (Medium)
+        public ListNode RemoveZeroSumSublists(ListNode head)
+        {
+            ListNode dummyHead = new ListNode(0, head);
+            ListNode currNode = dummyHead;
+            int prefixSum = 0;
+            Dictionary<int, ListNode> prefixSumDic = new Dictionary<int, ListNode>();
+            while (currNode != null)
+            {
+                prefixSum += currNode.val;
+                if (prefixSumDic.ContainsKey(prefixSum))
+                {
+                    currNode = prefixSumDic[prefixSum].next;
+                    int sum = prefixSum + currNode.val;
+                    while (sum != prefixSum)
+                    {
+                        prefixSumDic.Remove(sum);
+                        currNode = currNode.next;
+                        sum += currNode.val;
+                    }
+                    prefixSumDic[prefixSum].next = currNode.next;
+                }
+                else
+                {
+                    prefixSumDic.Add(prefixSum, currNode);
+                }
+                currNode = currNode.next;
+            }
+            return dummyHead.next;
+        }
     }
 }
