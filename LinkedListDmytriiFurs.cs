@@ -12,11 +12,12 @@ namespace Leetcode_Solutions
                 LinkedListDmytriiFurs instance = new LinkedListDmytriiFurs();
 
             ListNode ln1 = new ListNode(1, null);
-            ListNode ln2 = new ListNode(3, ln1);
-            ListNode ln3 = new ListNode(-3, ln2);
+            ListNode ln2 = new ListNode(-3, ln1);
+            ListNode ln3 = new ListNode(5, ln2);
             ListNode ln4 = new ListNode(2, ln3);
             ListNode ln5 = new ListNode(1, ln4);
-            instance.RemoveZeroSumSublists(ln5);
+            instance.InsertionSortList(ln5);
+            instance.PrintAllNodes(ln2);
 
         }
             public class ListNode
