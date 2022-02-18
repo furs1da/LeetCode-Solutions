@@ -1555,5 +1555,29 @@ namespace Leetcode_Solutions
             }
             return dummyHead.next;
         }
+
+        // 147. Insertion Sort List (Medium)
+        public ListNode InsertionSortList(ListNode head)
+        {
+            ListNode dummyHead = new ListNode(0);
+            ListNode prev = dummyHead;
+            while (head != null)
+            {
+                ListNode next = head.next;
+                if (prev.val >= head.val)
+                {
+                    prev = dummyHead;
+                }
+                while (prev.next != null && prev.next.val < head.val)
+                {
+                    prev = prev.next;
+                }
+                head.next = prev.next;
+                prev.next = head;
+                head = next;
+            }
+            return dummyHead.next;
+
+        }
     }
 }
