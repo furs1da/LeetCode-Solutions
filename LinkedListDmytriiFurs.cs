@@ -1578,6 +1578,48 @@ namespace Leetcode_Solutions
                 head = next;
             }
             return dummyHead.next;
+        }
+
+        // 25. Reverse Nodes in k-Group (Hard)
+        public ListNode ReverseKGroup(ListNode head, int k)
+        {
+            if (head == null)
+                return head;
+            if (k == 1)
+                return head;
+            ListNode dummyHead = new ListNode(0, head);
+            ListNode prev = dummyHead;
+            int i = 0;
+            ListNode temp = head;
+            while (temp != null)
+            {
+                i++;
+                if (i % k == 0)
+                {
+                    prev = Reverse(prev, temp.next);
+                    temp = prev.next;
+                }
+                else
+                {
+                    temp = temp.next;
+                }
+            }
+
+            return dummyHead.next;
+        }
+        public ListNode Reverse(ListNode prev, ListNode next)
+        {
+            ListNode last = prev.next;
+            ListNode curr = last.next;
+
+            while (curr != next)
+            {
+                last.next = curr.next;
+                curr.next = prev.next;
+                prev.next = curr;
+                curr = last.next;
+            }
+            return last;
 
         }
     }
