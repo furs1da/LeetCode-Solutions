@@ -9,16 +9,19 @@ namespace Leetcode_Solutions
         {
             static void Main(string[] args)
             {
-                LinkedListDmytriiFurs instance = new LinkedListDmytriiFurs();
+            //    LinkedListDmytriiFurs instance = new LinkedListDmytriiFurs();
 
-            ListNode ln1 = new ListNode(1, null);
-            ListNode ln2 = new ListNode(-3, ln1);
-            ListNode ln3 = new ListNode(5, ln2);
-            ListNode ln4 = new ListNode(2, ln3);
-            ListNode ln5 = new ListNode(1, ln4);
-            instance.InsertionSortList(ln5);
-            instance.PrintAllNodes(ln2);
-
+            //ListNode ln1 = new ListNode(1, null);
+            //ListNode ln2 = new ListNode(-3, ln1);
+            //ListNode ln3 = new ListNode(5, ln2);
+            //ListNode ln4 = new ListNode(2, ln3);
+            //ListNode ln5 = new ListNode(1, ln4);
+            //instance.InsertionSortList(ln5);
+            //instance.PrintAllNodes(ln2);
+            int[][] matrix = new int[1][];
+            matrix[0] = new int[2] { 1, 3 };
+            int target = 3;
+            Console.WriteLine(SearchMatrix(matrix, target));
         }
             public class ListNode
             {
@@ -1621,6 +1624,25 @@ namespace Leetcode_Solutions
             }
             return last;
 
+        }
+
+
+
+        //74. Search a 2D Matrix (Medium)
+        public static bool SearchMatrix(int[][] matrix, int target)
+        {
+            int i = 0, j = matrix[0].Length - 1;
+            int numberOfRows = matrix.GetLength(0);
+            while (i < numberOfRows && j >= 0)
+            {
+                if (matrix[i][j] == target)
+                    return true;
+                else if (matrix[i][j] > target)
+                    j--;
+                else
+                    i++;
+            }
+            return false;
         }
     }
 }
