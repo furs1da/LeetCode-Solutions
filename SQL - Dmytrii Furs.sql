@@ -184,14 +184,67 @@ GROUP BY customer_number
 ORDER BY COUNT(*) DESC
 LIMIT 1;
 
--- 511. Game Play Analysis I
+-- 511. Game Play Analysis I (Easy)
 SELECT player_id, MIN(event_date) AS 'first_login'
 FROM activity
 GROUP BY player_id
 
--- 584. Find Customer Referee
+-- 584. Find Customer Referee (Easy)
 SELECT name
 FROM customer
 WHERE referee_id != 2 OR referee_id IS NULL
 
+-- 607. Sales Person (Easy)
+SELECT sp.name
+FROM SalesPerson sp
+WHERE sp.sales_id NOT IN (
+SELECT o.sales_id FROM orders o 
+LEFT JOIN company c ON o.com_id = c.com_id
+WHERE c.name = "RED")
 
+
+-- 1795. Rearrange Products Table (Easy)
+SELECT product_id, 'store1' as store, store1 as 'price'
+FROM products
+WHERE store1 IS NOT NULL
+UNION
+SELECT product_id, 'store2' as store, store2 as 'price'
+FROM products
+WHERE store2 IS NOT NULL
+UNION
+SELECT product_id, 'store3' as store, store3 as 'price'
+FROM products
+WHERE store3 IS NOT NULL
+
+-- 1873. Calculate Special Bonus (Easy)
+
+SELECT employee_id, salary AS 'bonus'  
+FROM employees
+WHERE name NOT LIKE 'M%' AND employee_id%2 != 0
+UNION
+SELECT employee_id, 0 AS 'bonus'  
+FROM employees
+WHERE name LIKE 'M%' OR employee_id%2 = 0
+ORDER BY employee_id
+
+-- 1050. Actors and Directors Who Cooperated At Least Three Times (Easy)
+SELECT  actor_id, director_id  
+FROM ActorDirector
+GROUP BY  actor_id, director_id
+HAVING COUNT(director_id) >= 3
+
+-- 1890. The Latest Login in 2020 (Easy)
+SELECT user_id, MAX(time_stamp) as last_stamp 
+FROM Logins 
+WHERE YEAR(time_stamp) = 2020
+GROUP BY user_id;
+
+-- 1965. Employees With Missing Information (Easy)
+SELECT emp.employee_id  FROM Employees AS emp
+LEFT JOIN Salaries AS sal ON emp.employee_id = sal.employee_id
+WHERE sal.salary IS NULL
+UNION
+SELECT sal.employee_id  FROM Employees AS emp
+RIGHT JOIN Salaries AS sal ON emp.employee_id = sal.employee_id
+WHERE emp.name IS NULL
+ORDER BY 1;
