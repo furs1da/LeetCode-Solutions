@@ -177,4 +177,21 @@ FROM Department
 GROUP BY id;
 
 
+-- 586. Customer Placing the Largest Number of Orders (Easy)
+SELECT customer_number
+FROM orders
+GROUP BY customer_number
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+-- 511. Game Play Analysis I
+SELECT player_id, MIN(event_date) AS 'first_login'
+FROM activity
+GROUP BY player_id
+
+-- 584. Find Customer Referee
+SELECT name
+FROM customer
+WHERE referee_id != 2 OR referee_id IS NULL
+
 
