@@ -248,3 +248,37 @@ SELECT sal.employee_id  FROM Employees AS emp
 RIGHT JOIN Salaries AS sal ON emp.employee_id = sal.employee_id
 WHERE emp.name IS NULL
 ORDER BY 1;
+
+
+-- 1148. Article Views I (Easy)
+SELECT DISTINCT author_id AS id
+FROM views
+WHERE author_id = viewer_id 
+ORDER BY 1;
+
+
+-- 1141. User Activity for the Past 30 Days I (Easy)
+SELECT activity_date AS 'day', COUNT(DISTINCT user_id) AS 'active_users'
+FROM Activity 
+GROUP BY activity_date
+HAVING activity_date >= '2019-06-28' AND activity_date <= '2019-07-27';
+
+
+-- 1084. Sales Analysis III (Easy)
+SELECT p.product_id, p.product_name 
+FROM sales s
+INNER JOIN Product p ON p.product_id = s.product_id
+GROUP BY p.product_id
+HAVING MIN(s.sale_date) >= "2019-01-01" AND MAX(s.sale_date) <= "2019-03-31";
+
+
+-- 1158. Market Analysis I (Medium)
+SELECT user_id AS buyer_id, join_date, IFNULL(num, 0) AS orders_in_2019
+FROM users 
+LEFT JOIN (
+SELECT buyer_id, COUNT(*) AS NUM
+FROM orders 
+WHERE YEAR(order_date) = 2019
+GROUP BY buyer_id
+) AS res
+ON users.user_id = res.buyer_id
