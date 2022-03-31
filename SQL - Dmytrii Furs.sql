@@ -282,3 +282,72 @@ WHERE YEAR(order_date) = 2019
 GROUP BY buyer_id
 ) AS res
 ON users.user_id = res.buyer_id
+
+
+
+-- 1757. Recyclable and Low Fat Products (Easy)
+SELECT product_id
+FROM products
+WHERE low_fats = 'Y' AND recyclable = 'Y'
+
+
+-- 1741. Find Total Time Spent by Each Employee (Easy)
+SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time
+FROM Employees 
+GROUP BY event_day, emp_id
+
+
+-- 1729. Find Followers Count (Easy)
+SELECT user_id, COUNT(follower_id) AS followers_count
+FROM followers
+GROUP BY user_id
+ORDER BY user_id;
+
+
+-- 1693. Daily Leads and Partners (Easy)
+
+SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners
+FROM DailySales
+GROUP BY 1, 2;
+
+
+-- 1667. Fix Names in a Table (Easy)
+SELECT user_id, CONCAT(UPPER(SUBSTRING(name, 1, 1)), LOWER(SUBSTRING(name, 2))) AS name
+FROM users
+ORDER BY 1;
+
+
+-- 1587. Bank Account Summary II (Easy)
+SELECT u.name, SUM(t.amount) AS balance
+FROM users u
+INNER JOIN Transactions t ON u.account = t.account
+GROUP BY t.account
+HAVING SUM(t.amount) > 10000;
+
+
+-- 1581. Customer Who Visited but Did Not Make Any Transactions (Easy)
+SELECT v.customer_id, COUNT(v.visit_id) AS 'count_no_trans'
+FROM visits v
+LEFT JOIN transactions t ON v.visit_id = t.visit_id
+WHERE t.amount IS NULL
+GROUP BY v.customer_id;
+
+
+-- 1527. Patients With a Condition (Easy)
+SELECT patient_id, patient_name, conditions
+FROM patients
+WHERE conditions LIKE "DIAB1%" OR conditions LIKE "% DIAB1%";
+
+
+-- 1407. Top Travellers (Easy)
+SELECT u.name, IFNULL(SUM(r.distance), 0) AS "travelled_distance"
+FROM users u
+LEFT JOIN rides r ON u.id = r.user_id
+GROUP BY r.user_id
+ORDER BY 2 DESC, 1;
+
+
+-- 1484. Group Sold Products By The Date (Easy)
+SELECT sell_date, COUNT(DISTINCT product) AS num_sold, GROUP_CONCAT(DISTINCT product) AS products
+FROM activities
+GROUP BY sell_date;
