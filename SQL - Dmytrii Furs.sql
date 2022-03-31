@@ -351,3 +351,17 @@ ORDER BY 2 DESC, 1;
 SELECT sell_date, COUNT(DISTINCT product) AS num_sold, GROUP_CONCAT(DISTINCT product) AS products
 FROM activities
 GROUP BY sell_date;
+
+
+
+-- 1393. Capital Gain/Loss (Medium)
+SELECT stock_name, SUM(
+    CASE
+        WHEN operation = 'Buy' THEN price * -1
+        ELSE price
+    END) AS capital_gain_loss
+FROM stocks
+GROUP BY stock_name;
+
+
+-- 
