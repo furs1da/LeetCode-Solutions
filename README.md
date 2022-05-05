@@ -1,6 +1,6 @@
 # Leetcode-Solutions
-Leetcode Solutions - Dmytrii Furs \n
-SQL - 45/45 \n
-LinkedList - 40 \n
-Binary Search I - Completed \n
-Bash - 4/4 \n
+Leetcode Solutions - Dmytrii Furs <br />
+SQL - 45/45 <br />
+LinkedList - 40 <br />
+Binary Search I - Completed <br />
+Bash - 4/4 <br />
